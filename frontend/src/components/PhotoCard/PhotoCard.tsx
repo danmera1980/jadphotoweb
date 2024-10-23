@@ -35,7 +35,7 @@ const PhotoCard: React.FC<PhotoCardProps> = ({ photo }) => {
       <ImageDialog
         isOpen={isDialogOpen}
         onClose={closeDialog}
-        src={photo.src}
+        src={BACKEND_URL + photo.src}
         alt={photo.alt}
       />
     </>
