@@ -17,43 +17,81 @@ if (!fs.existsSync(frontendUploadsPath)) {
 // Multer storage configuration (no longer saving original files)
 const storage = multer.memoryStorage(); // Use memory storage to avoid saving original files
 
-// Multer file filter for images
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 10000000 },
-  fileFilter: (req, file, cb) => {
-    const filetypes = /jpeg|jpg|png|gif/;
-    const extname = filetypes.test(
-      path.extname(file.originalname).toLowerCase()
-    );
-    const mimetype = filetypes.test(file.mimetype);
-    if (mimetype && extname) {
-      return cb(null, true);
-    } else {
-      cb("Error: Images Only!");
-    }
-  },
-}).array("photos", 10); // Expecting an array of photos
+// Multer file filter for images (can be reused)
+const imageFileFilter = (req, file, cb) => {
+  const filetypes = /jpeg|jpg|png|gif/;
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = filetypes.test(file.mimetype);
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb(new Error("Error: Images Only!")); // Pass error as Error object
+  }
+};
+
+// Function to create a Multer instance with options
+const createUploader = (fieldName, maxCount) => {
+  return multer({
+    storage: storage,
+    limits: { fileSize: 10000000 }, // 10MB
+    fileFilter: imageFileFilter,
+  }).array(fieldName, maxCount);
+};
+
+// Create separate uploaders for single and multiple files
+const uploadMainImage = createUploader('image', 1); // For single "image" field
+const uploadMultiplePhotos = createUploader('photos', 1000); // For multiple "photos" field
+
 
 const createMatch = async (req, res) => {
   try {
-    // Parse the match JSON from the "match" field
-    const matchData = JSON.parse(req.body.matchData);
-    const newMatch = new Match(matchData);
+    uploadMainImage(req, res, async (err) => {
+      if (err) {
+        console.error("Error uploading image:", err);
+        return res.status(400).json({ message: err });
+      }
 
-    await newMatch.save();
+      const imageFile = req.files[0]; // Access the single file from req.file
+      const matchData = JSON.parse(req.body.matchData);
 
-    res
-      .status(201)
-      .json({ message: "Match created successfully!", match: newMatch });
+      // Generate a unique filename for the image
+      const imageName = `match-${Date.now()}-${imageFile.originalname}`;
+
+      // Create the path to save the image in the frontend uploads directory
+      const imagePath = path.join(frontendUploadsPath, imageName);
+
+      try {
+        // Save the image data to the file system
+        await sharp(imageFile.buffer)
+          .resize(900) // Optional: Resize the image if needed
+          .toFile(imagePath);
+      } catch (sharpError) {
+        console.error("Error saving image:", sharpError);
+        return res.status(500).json({ message: "Image upload failed" });
+      }
+
+      // Create the new match object with the correct image path
+      const newMatch = new Match({
+        ...matchData,
+        mainImagePath: imageName, // Save the image name in the database
+      });
+
+      await newMatch.save();
+
+      res.status(201).json({
+        message: "Match created successfully!",
+        match: newMatch,
+      });
+    });
   } catch (error) {
     console.error("Error creating match:", error);
     res.status(500).json({ message: "Error creating match" });
   }
 };
 
+
 const uploadPhotos = async (req, res) => {
-  upload(req, res, async (err) => {
+  uploadMultiplePhotos(req, res, async (err) => {
     if (err) {
       return res.status(400).json({ message: err });
     }
@@ -63,7 +101,6 @@ const uploadPhotos = async (req, res) => {
     try {
       // Parse the match JSON from the "match" field
       const matchId = JSON.parse(req.body.matchId);
-      const match = 
 
       const photoIds = await Promise.all(
         req.files.map(async (file) => {
@@ -103,8 +140,9 @@ const uploadPhotos = async (req, res) => {
         })
       );
 
-      newMatch.photos = photoIds; // Ensure photos array exists in your Match schema
-      await newMatch.save();
+      await Match.findByIdAndUpdate(matchId, {
+        $push: { photos: { $each: photoIds } },
+      });
 
       res
         .status(201)
@@ -136,7 +174,6 @@ const getImagesByMatch = async (req, res) => {
       return res.status(404).json({ message: "Match not found" });
     }
 
-    console.log(match);
     // Query for photos that match the given match ID
     const photos = await Photo.find({ match: objectId });
     const photosUrl = photos.map((photo) => {
@@ -155,8 +192,30 @@ const getImagesByMatch = async (req, res) => {
       photos: photosUrl,
     }); // Return URLs of watermarked images
   } catch (error) {
-    res.status(500).json({ message: "Error fetching images", error: error });
+    res.status(401).json({ message: "Error fetching images", error: error });
   }
 };
 
-module.exports = { createMatch, getAllMatches, getImagesByMatch, uploadPhotos };
+const getMatchInformation = async (req, res) => {
+  try {
+    const { matchId } = req.query;
+    const objectId = new mongoose.Types.ObjectId(matchId);
+    const match = await Match.findById(objectId);
+    if (!match) {
+      return res.status(404).json({ message: "Match not found" });
+    }
+    res.status(200).json(match)
+  } catch (error) {
+    res
+      .status(401)
+      .json({ message: "Error fetching match information", error: error });
+  }
+};
+
+module.exports = {
+  createMatch,
+  getAllMatches,
+  getImagesByMatch,
+  uploadPhotos,
+  getMatchInformation,
+};

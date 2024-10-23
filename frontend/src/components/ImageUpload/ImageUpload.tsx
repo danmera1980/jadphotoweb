@@ -2,23 +2,18 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 interface ImageUploaderProps {
-  onUpload: (files: File[]) => void;
+  onFilesSelected: (files: File[]) => void; // New prop to pass selected files
   clearFiles: boolean;
-  onUploadProgress: (progress: number) => void; // Add this prop
 }
-
 const ImageUploader: React.FC<ImageUploaderProps> = ({
-  onUpload,
+  onFilesSelected,
   clearFiles,
-  onUploadProgress,
 }) => {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
-  const [progress, setProgress] = useState(0); // Declare progress state
 
   useEffect(() => {
     if (clearFiles) {
       setPreviewUrls([]);
-      setProgress(0); // Reset progress when clearing files
     }
   }, [clearFiles]);
 
@@ -28,11 +23,9 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         URL.createObjectURL(file)
       );
       setPreviewUrls((prev) => [...prev, ...newPreviewUrls]);
-
-      // Pass files to the parent component
-      onUpload(acceptedFiles);
+      onFilesSelected(acceptedFiles);
     },
-    [onUpload]
+    [onFilesSelected]
   );
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -44,12 +37,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       "image/gif": [".gif"],
     },
   });
-
-  // Update progress based on the prop received
-  const updateProgress = (newProgress: number) => {
-    setProgress(newProgress);
-    onUploadProgress(newProgress); // Notify the parent component about the progress
-  };
 
   return (
     <>
@@ -63,17 +50,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         <p>
           Arrastrar las fotos aquí, o hacer click para seleccionar las fotos.
         </p>
-      </div>
-
-      {/* Add a loading bar or progress indicator here */}
-      <div className="mt-4">
-        {/* Example loading bar */}
-        <div className="bg-gray-300 h-2 rounded-full">
-          <div
-            className="bg-blue-600 h-full rounded-full"
-            style={{ width: `${progress}%` }} // Bind width to progress
-          />
-        </div>
       </div>
 
       <div className="mt-4 grid grid-cols-5 gap-4">

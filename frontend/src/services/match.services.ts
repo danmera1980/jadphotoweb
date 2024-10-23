@@ -4,19 +4,15 @@ import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const createMatch = async (
-  matchData: MatchData,
+  matchData: FormData,
 ) => {
-  const form = new FormData();
-
-  // Append the match data as a JSON string
-  form.append("matchData", JSON.stringify(matchData));
 
   try {
     // Perform the request, tracking upload progress
-    const result = await axios.post(`${BACKEND_URL}/createMatch`, form, {
+    const result = await axios.post(`${BACKEND_URL}/createMatch`, matchData, {
       headers: {
-        "Content-Type": "multipart/form-data",
-      }
+        "Content-Type": "multipart/form-data", // Important for FormData
+      },
     });
 
     return result;
@@ -26,7 +22,7 @@ export const createMatch = async (
   }
 };
 
-export const uploadPhotos = async (matchId: string, files: File[]) => {
+export const uploadMatchPhotos = async (matchId: string, files: File[]) => {
   const form = new FormData();
 
   // Append each file individually to the form data
@@ -39,7 +35,8 @@ export const uploadPhotos = async (matchId: string, files: File[]) => {
 
   try {
     // Perform the request, tracking upload progress
-    const result = await axios.post(`${BACKEND_URL}/createMatch`, form, {
+    console.log(form, files);
+    const result = await axios.post(`${BACKEND_URL}/uploadPhotos`, form, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -55,7 +52,6 @@ export const uploadPhotos = async (matchId: string, files: File[]) => {
 export const getAllMatches = async () => {
   try {
     const result = await axios.get(`${BACKEND_URL}/getAllMatches`);
-    console.log(result.data);
     return result.data;
   } catch (error) {
     console.error("Error getting the matches", error);
@@ -66,10 +62,21 @@ export const getAllMatches = async () => {
 export const getImagesByMatchId = async (matchId: string) => {
   try {
     const result = await axios.get(`${BACKEND_URL}/getImagesByMatch?matchId=${matchId}`);
-    console.log(result.data);
     return result.data;
   } catch (error) {
     console.error("Error getting the photos", error);
+    throw error;
+  }
+}
+
+export const getMatchInfo = async (matchId: string) => {
+  try {
+    const result = await axios.get(
+      `${BACKEND_URL}/getMatchInformation?matchId=${matchId}`
+    );
+    console.log(result.data);
+  } catch (error) {
+    console.error("Error getting match information", error);
     throw error;
   }
 }

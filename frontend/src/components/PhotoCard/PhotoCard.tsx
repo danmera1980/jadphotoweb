@@ -1,23 +1,14 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import ImageDialog from "../ImageDialog/ImageDialog";
-
-interface Photo {
-  id: number;
-  src: string;
-  alt: string;
-  title: string;
-}
-
-interface PhotoCardProps {
-  photo: Photo;
-}
+import { PhotoCardProps } from "@/interfaces";
 
 const PhotoCard: React.FC<PhotoCardProps> = ({ photo }) => {
   const [isDialogOpen, setDialogOpen] = useState(false); // State for dialog visibility
 
   const openDialog = () => setDialogOpen(true);
   const closeDialog = () => setDialogOpen(false);
+  console.log(photo);
 
   return (
     <>

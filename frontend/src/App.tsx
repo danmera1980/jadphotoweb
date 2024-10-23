@@ -3,6 +3,7 @@ import Match from "./pages/Match";
 import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
 import Gallery from "./pages/Gallery";
+import AddPhotos from "./pages/AddPhotos";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/match" element={<Match />} />
         <Route path="/create" element={<CreateMatch />} />
+        <Route path="/addPhotos" element={<AddPhotos />} />
       </Routes>
     </div>
   );

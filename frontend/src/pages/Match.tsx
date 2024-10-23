@@ -40,14 +40,6 @@ const Match = () => {
       <Navbar />
 
       <main className="flex-grow p-4">
-        {/* Match Info */}
-        <div className="text-center mb-4">
-          <h1 className="text-2xl font-bold">{title}</h1>
-          <p className="text-sm text-gray-500">
-            {date} | {time}
-          </p>
-          <p className="text-sm text-gray-500">Category: {category}</p>
-        </div>
 
         {/* Photo Gallery */}
         <PhotoGallery
