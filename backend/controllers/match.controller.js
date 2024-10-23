@@ -7,7 +7,7 @@ const sharp = require("sharp");
 const mongoose = require("mongoose");
 
 // Define the path to the frontend uploads directory
-const frontendUploadsPath = path.join(__dirname, "../../frontend/uploads");
+const frontendUploadsPath = path.join(__dirname, "../uploads");
 
 // Ensure the frontend uploads directory exists
 if (!fs.existsSync(frontendUploadsPath)) {
@@ -212,10 +212,23 @@ const getMatchInformation = async (req, res) => {
   }
 };
 
+const getPhotoById = async (req, res) => {
+  try {
+    const photoId = req.params.photoId;
+    const imageData = fs.readFileSync(path.join(frontendUploadsPath, photoId));
+    res.setHeader("Content-Type", "image/jpeg");
+    res.send(imageData);
+  } catch (error) {
+    console.error("Error fetching image:", error);
+    res.status(500).send("Error fetching image");
+  }
+}
+
 module.exports = {
   createMatch,
   getAllMatches,
   getImagesByMatch,
   uploadPhotos,
   getMatchInformation,
+  getPhotoById
 };
