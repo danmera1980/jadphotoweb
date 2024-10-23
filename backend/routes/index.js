@@ -5,10 +5,12 @@ const {
   getImagesByMatch,
   getMatchInformation,
   uploadPhotos,
+  getPhotoById,
 } = require("../controllers/match.controller"); // Destructure after requiring the file
 
 const router = Router();
 
+router.get("/uploads/:photoId", getPhotoById)
 router.get("/getAllMatches", getAllMatches);
 router.post("/createMatch", createMatch);
 router.post("/uploadPhotos", uploadPhotos);

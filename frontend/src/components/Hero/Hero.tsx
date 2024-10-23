@@ -1,5 +1,4 @@
 import { ArrowRight } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 
 const Hero = () => {
@@ -8,22 +7,22 @@ const Hero = () => {
       <div className="container">
         <div className="grid items-center gap-8 lg:grid-cols-2">
           <div className="flex flex-col items-center py-32 text-center lg:mx-auto lg:items-start lg:px-0 lg:text-left">
-            <p>New Release</p>
             <h1 className="my-6 text-pretty text-4xl font-bold lg:text-6xl">
-              Welcome to Our Website
+              Vive la emoción del torneo en cada imagen
             </h1>
             <p className="mb-8 max-w-xl text-muted-foreground lg:text-xl">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Elig
-              doloremque mollitia fugiat omnis! Porro facilis quo animi
-              consequatur. Explicabo.
+              Capturamos los momentos más emocionantes de cada partido para que
+              puedas revivirlos cuando quieras. Encuentra las fotos de tus
+              mejores jugadas, celebra cada gol y comparte con amigos y
+              familiares.
             </p>
             <div className="flex w-full flex-col justify-center gap-2 sm:flex-row lg:justify-start">
-              <Button className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto" onClick={() => { window.location.href = "/gallery"}}>
                 <ArrowRight className="mr-2 size-4" />
-                Primary
+                Ver Galería
               </Button>
               <Button variant="outline" className="w-full sm:w-auto">
-                Secondary
+                Contactar al Fotógrafo
               </Button>
             </div>
           </div>
@@ -53,9 +52,24 @@ const Hero = () => {
                 })}
               </svg>
             </div>
-            <div className="absolute left-[8%] top-[10%] flex aspect-[5/6] w-[38%] justify-center rounded-lg border border-border bg-accent"></div>
-            <div className="absolute right-[12%] top-[20%] flex aspect-square w-1/5 justify-center rounded-lg border border-border bg-accent"></div>
-            <div className="absolute bottom-[24%] right-[24%] flex aspect-[5/6] w-[38%] justify-center rounded-lg border border-border bg-accent"></div>
+            <div className="absolute left-[8%] top-[10%] flex aspect-[8/5] w-[50%] justify-center rounded-lg border border-border bg-accent">
+              <img
+                src="/src/assets/hero1.jpg"
+                className="object-cover rounded-lg h-full w-full"
+              />
+            </div>
+            <div className="absolute right-[12%] top-[20%] flex aspect-square w-1/5 justify-center rounded-lg border border-border bg-accent">
+              <img
+                src="/src/assets/hero2.jpg"
+                className="object-cover rounded-lg h-full w-full"
+              />
+            </div>
+            <div className="absolute bottom-[24%] right-[24%] flex aspect-[5/6] w-[38%] justify-center rounded-lg border border-border bg-accent">
+              <img
+                src="/src/assets/hero3.jpg"
+                className="object-cover rounded-lg h-full w-full"
+              />
+            </div>
           </div>
         </div>
       </div>

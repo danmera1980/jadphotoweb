@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 
 const MatchCard: React.FC<MatchCardProps> = ({ match, isEditable }) => {
   const navigate = useNavigate();
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   // Split the date string into its components
   const [year, month, day] = match.date.split("T")[0].split("-").map(Number);
@@ -48,11 +49,14 @@ const MatchCard: React.FC<MatchCardProps> = ({ match, isEditable }) => {
         key={match._id}
         className="shadow-md hover:shadow-lg transition-shadow duration-300" // Add cursor pointer for better UX
       >
-        <CardContent className="cursor-pointer" onClick={() => gotoMatch(match._id)}>
+        <CardContent
+          className="cursor-pointer"
+          onClick={() => gotoMatch(match._id)}
+        >
           <CardHeader>
             <h1 className="text-lg font-bold">{match.matchName}</h1>
             <img
-              src={`./uploads/${match.mainImagePath}`}
+              src={`${BACKEND_URL}/uploads/${match.mainImagePath}`}
               alt={match.matchName}
               className="w-full h-48 object-cover rounded-md"
             />

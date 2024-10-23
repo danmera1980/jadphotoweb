@@ -5,6 +5,8 @@ import { PhotoCardProps } from "@/interfaces";
 
 const PhotoCard: React.FC<PhotoCardProps> = ({ photo }) => {
   const [isDialogOpen, setDialogOpen] = useState(false); // State for dialog visibility
+  
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   const openDialog = () => setDialogOpen(true);
   const closeDialog = () => setDialogOpen(false);
@@ -19,7 +21,7 @@ const PhotoCard: React.FC<PhotoCardProps> = ({ photo }) => {
       >
         <CardHeader>
           <img
-            src={photo.src}
+            src={BACKEND_URL + photo.src}
             alt={photo.alt}
             className="w-full h-48 object-cover rounded-md"
           />
