@@ -9,4 +9,8 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    host: "0.0.0.0", // Ensure the server binds to 0.0.0.0
+    port: parseInt(process.env.PORT ?? "3000"), // Ensure this port is specified if required
+  },
 });
