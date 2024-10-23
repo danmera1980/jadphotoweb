@@ -146,7 +146,7 @@ const uploadPhotos = async (req, res) => {
 
       res
         .status(201)
-        .json({ message: "Match created successfully!", match: newMatch });
+        .json({ message: "Images uploaded successfully!" });
     } catch (error) {
       console.error("Error creating match:", error);
       res.status(500).json({ message: "Error creating match" });
