@@ -17,11 +17,11 @@ const MatchCard: React.FC<MatchCardProps> = ({ match, isEditable }) => {
 
   // Create the Date object, remembering that months are zero-indexed
   const date = new Date(year, month - 1, day);
-  const options = {
+
+  const formattedDate = date.toLocaleDateString("es-EC", {
     month: "long",
     day: "numeric",
-  };
-  const formattedDate = date.toLocaleDateString("es-EC", options);
+  });
   const [hours, minutes] = match.time.split(":").map(Number);
   const timeDate = new Date();
   timeDate.setHours(hours, minutes, 0, 0); // Set hours and minutes on a Date object

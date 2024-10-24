@@ -39,6 +39,7 @@ const Hero = () => {
                   const scalar = 40 + index * (360 / array.length);
                   const x = Math.round(Math.cos(angle) * scalar);
                   const y = Math.round(Math.sin(angle) * scalar);
+                  console.log(dot);
 
                   return (
                     <circle
