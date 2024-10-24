@@ -1,5 +1,9 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import hero1 from "@/assets/hero1.jpg";
+import hero2 from "@/assets/hero2.jpg";
+import hero3 from "@/assets/hero3.jpg";
+
 
 const Hero = () => {
   return (
@@ -55,19 +59,19 @@ const Hero = () => {
             </div>
             <div className="absolute left-[8%] top-[10%] flex aspect-[8/5] w-[50%] justify-center rounded-lg border border-border bg-accent">
               <img
-                src="/src/assets/hero1.jpg"
+                src={hero1}
                 className="object-cover rounded-lg h-full w-full"
               />
             </div>
             <div className="absolute right-[12%] top-[20%] flex aspect-square w-1/5 justify-center rounded-lg border border-border bg-accent">
               <img
-                src="/src/assets/hero2.jpg"
+                src={hero2}
                 className="object-cover rounded-lg h-full w-full"
               />
             </div>
             <div className="absolute bottom-[24%] right-[24%] flex aspect-[5/6] w-[38%] justify-center rounded-lg border border-border bg-accent">
               <img
-                src="/src/assets/hero3.jpg"
+                src={hero3}
                 className="object-cover rounded-lg h-full w-full"
               />
             </div>
