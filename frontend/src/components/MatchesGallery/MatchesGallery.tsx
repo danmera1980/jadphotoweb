@@ -17,6 +17,7 @@ const MatchesGallery = ({isEditable = false}) => {
     };
 
     getMatches();
+    console.log(matches);
   }, []);
 
   return (
