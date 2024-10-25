@@ -22,7 +22,7 @@ const MatchesGallery = ({isEditable = false}) => {
 
   return (
     <div className="flex flex-wrap justify-center gap-4">
-      {matches?.map((match: Match) => (
+      {matches.length > 0 && matches.map((match: Match) => (
         <MatchCard
           isEditable={isEditable}
           key={match._id}
