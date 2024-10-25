@@ -189,6 +189,7 @@ const getImagesByMatch = async (req, res) => {
       matchName: match.matchName,
       date: match.date.toISOString().split("T")[0],
       time: match.time,
+      category: match.category,
       photos: photosUrl,
     }); // Return URLs of watermarked images
   } catch (error) {

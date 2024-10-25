@@ -10,7 +10,6 @@ const PhotoCard: React.FC<PhotoCardProps> = ({ photo }) => {
 
   const openDialog = () => setDialogOpen(true);
   const closeDialog = () => setDialogOpen(false);
-  console.log(photo);
 
   return (
     <>

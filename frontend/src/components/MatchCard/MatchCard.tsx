@@ -61,7 +61,14 @@ const MatchCard: React.FC<MatchCardProps> = ({ match, isEditable }) => {
               className="w-full h-48 object-cover rounded-md"
             />
           </CardHeader>
-          <p>{dateTime}</p>
+          <p>
+            <b>Categoría: </b>
+            Sub - {match.category}
+          </p>
+          <p>
+            <b>Fecha: </b>
+            {dateTime}
+          </p>
         </CardContent>
         {isEditable && (
           <CardFooter className="justify-end">
