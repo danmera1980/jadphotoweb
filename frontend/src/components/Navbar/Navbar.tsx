@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router-dom";
+import logo from "../../assets/logo.png";
 
 const Navbar = () => {
   const location = useLocation();
@@ -22,11 +23,7 @@ const Navbar = () => {
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
-              <img
-                src="https://www.shadcnblocks.com/images/block/block-1.svg"
-                className="w-8"
-                alt="logo"
-              />
+              <img src={logo} className="w-8" alt="logo" />
               <span className="text-xl font-bold">JAD Photos</span>
             </div>
             <div className="flex items-center">
@@ -77,11 +74,7 @@ const Navbar = () => {
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <img
-                src="https://www.shadcnblocks.com/images/block/block-1.svg"
-                className="w-8"
-                alt="logo"
-              />
+              <img src={logo} className="w-8" alt="logo" />
               <span className="text-xl font-bold">JAD Photos</span>
             </div>
             <Sheet>
@@ -94,11 +87,7 @@ const Navbar = () => {
                 <SheetHeader>
                   <SheetTitle>
                     <div className="flex items-center gap-2">
-                      <img
-                        src="https://www.shadcnblocks.com/images/block/block-1.svg"
-                        className="w-8"
-                        alt="logo"
-                      />
+                      <img src={logo} className="w-8" alt="logo" />
                       <span className="text-xl font-bold">JAD Photos</span>
                     </div>
                   </SheetTitle>

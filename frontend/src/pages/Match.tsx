@@ -24,7 +24,6 @@ const Match = () => {
         setDate(result.date);
         setTime(result.time);
         setCategory(result.category);
-        console.log(result.category);
       } catch (error) {
         console.error("Error getting the photos", error);
         throw error;

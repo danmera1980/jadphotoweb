@@ -1,4 +1,5 @@
 import { Separator } from "@/components/ui/separator";
+import logo from "../../assets/logo.png";
 
 const Footer = () => {
   return (
@@ -7,11 +8,7 @@ const Footer = () => {
         <footer>
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
             <div className="flex items-center gap-2">
-              <img
-                src="https://www.shadcnblocks.com/images/block/block-1.svg"
-                className="w-8"
-                alt="logo"
-              />
+              <img src={logo} className="w-8" alt="logo" />
               <span className="text-xl font-bold">JAD Photos</span>
             </div>
             <div className="flex flex-col gap-4 md:flex-row md:items-center">
